@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.ProductMapper">
+	<!-- 1.显示所有商品种类 -->
+	<select id="proList" resultMap="Product_list">
+		select * from product 
+		group by product_type
+	</select>
+	
+	<!-- 2.显示某一种类的所有信息 -->
+	<select id="prList" resultMap="Product_list" parameterType="String">
+		select * from product
+		where product_type = #{productType}
+	</select>
+	
+	<!-- 3.显示某一商品的信息 -->
+	<select id="getMessageById" resultType="Product" parameterType="String">
+		select * from product
+		where product_id = #{productId}
+	</select>
+	
+	<!-- 4.根据categoryId查询对应的商品 -->
+	<select id="pplist" parameterType="String" resultMap="Product_list">
+		select * from product
+		where category_id = #{categoryId}
+	</select>
+	
+	
+	<resultMap type="Product" id="Product_list">
+		<id property="productId" column="product_id"/>
+		<result property="categoryId" column="category_id" />
+		<result property="productName" column="product_name"/>
+		<result property="productNum" column="product_num"/>
+		<result property="productUnitPrice" column="product_unitprice"/>
+		<result property="productDesc" column="product_desc"/>
+		<result property="productNote" column="product_note"/>
+		<result property="productType" column="product_type"/>
+		<result property="productSellNum" column="product_sell_num"/>
+	</resultMap>
+</mapper>

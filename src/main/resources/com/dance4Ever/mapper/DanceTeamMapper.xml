@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.DanceTeamMapper">
+	<!-- 1.查询所有舞团的信息   -->
+	<select id="dlist" resultMap="dance_team_list" >
+		select * from dance_team 
+	</select>
+	
+	<!-- 3.舞团登录 -->
+	<select id="teamlogin" resultType="DanceTeam" parameterType="java.util.Map">
+		select * from dance_team
+		where dance_team_name = #{danceTeam.danceTeamName} and dance_team_password = #{danceTeam.danceTeamPassword}
+	</select>
+	<!-- 4.注册舞团 -->
+	<insert id="registerTeam" parameterType="DanceTeam">
+		insert into dance_team(dance_team_id, dance_team_name, dance_team_password,dance_team_person_num, 
+		dance_team_city, dance_team_logo, dance_team_intro, dance_team_create_time, dance_team_last_update_time)
+		values (#{danceTeam.danceTeamId}, #{danceTeam.danceTeamName}, #{danceTeam.danceTeamPassword}, #{danceTeam.danceTeamPersonNum}, 
+		        #{danceTeam.danceTeamCity}, #{danceTeam.danceTeamLogo}, #{danceTeam.danceTeamIntro}, #{danceTeam.danceTeamCreateTime}, #{danceTeam.danceTeamLastUpdateTime})
+	</insert>
+	
+	<!-- //5.根据用户id，查询出他所在舞团的信息  -->
+	<select id="queryById" resultType="DanceTeam" parameterType="String">
+		select * from dance_team 
+		where dance_team_id = #{id};
+	</select>
+	
+	<resultMap type="DanceTeam" id="dance_team_list">
+		<id property="danceTeamId" column="dance_team_id"/>
+		<result property="danceTeamName" column="dance_team_name"/>
+		<result property="danceTeamPersonNum" column="dance_team_person_num"/>
+		<result property="danceTeamCity" column="dance_team_city"/>
+		<result property="danceTeamLogo" column="dance_team_logo"/>
+		<result property="danceTeamIntro" column="dance_team_intro"/>
+		<result property="danceTeamCreateTime" column="dance_team_create_time"/>
+	</resultMap>
+</mapper>

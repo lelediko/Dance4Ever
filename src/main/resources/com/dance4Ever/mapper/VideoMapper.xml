@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.VideoMapper">
+	<!-- 1.根据视频id查询其对应的url地址 -->
+	<select id="getPath" parameterType="String" resultType="String">
+		select video_path from videos 
+		where video_id = #{videoId}
+	</select>
+	<!-- 2.根据视频id查询其所有信息 -->
+	<select id="getVideoMessage" parameterType="String" resultType="Videos">
+		select * from videos 
+		where video_id = #{videoId}
+	</select>
+	<!-- 3.查询所有的视频  top 8 -->
+	<select id="vlist" resultMap="video_list">
+		select * from videos
+		order by create_time desc limit 8 
+	</select>
+	
+	<resultMap type="Videos" id="video_list">
+		<id property="videoId" column="video_id"/>
+		<result property="videoName" column="video_name"/>
+		<result property="videoType" column="video_type"/>
+		<result property="createPersonId" column="create_person_id"/>
+		<result property="videoPath" column="video_path"/>
+		
+	</resultMap>
+</mapper>

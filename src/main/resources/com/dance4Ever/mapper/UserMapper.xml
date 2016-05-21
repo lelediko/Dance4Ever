@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.UserMapper">
+	<!-- 1.注册 -->
+	<insert id="register" parameterType="User">
+		insert into user ( id,
+		login_name, user_name, password, email, telephone, age, dance_age,
+		sex, dance_type, along_team_id, create_time, last_login_time )
+		values (#{user.id}, #{user.loginName}, #{user.userName}, #{user.password},
+		#{user.email}, #{user.telephone},
+		#{user.age}, #{user.danceAge}, #{user.sex}, #{user.danceType},
+		#{user.alongTeamId},
+		#{user.createTime} ,#{user.lastLoginTime})
+	</insert>
+
+	<!-- 2.登录 -->
+	<select id="login" resultType="User" parameterType="java.util.Map">
+		select * from
+		user
+		where login_name = #{user.loginName} and password =
+		#{user.password}
+
+	</select>
+
+	<!-- 3.根据登录用户名查询角色 -->
+	<select id="selectRoleByLoginName" resultType="Role"
+		parameterType="String">
+		select r.role,r.role_note from role as r
+		join user_role as ur on
+		ur.role_id = r.role_id
+		join user as u on u.id = ur.user_id
+		where u.login_name = #{loginName}
+	</select>
+
+	<!-- 4.修改用户信息 -->
+	<update id="updateByLoginName">
+		update user
+		set age = #{user.age}, sex = #{user.sex} ,
+		email = #{user.email} , dance_age = #{user.danceAge} , dance_type =
+		#{user.danceType} where login_name = #{user.loginName}
+	</update>
+
+	<!-- 5.根据userid查询舞团id -->
+	<select id="selectByUserId" parameterType="String" resultType="String">
+		select along_team_id from user
+		where id = #{id}
+	</select>
+
+	<!-- 6.根据舞团id，查询该舞团成员及角色 -->
+	<select id="tmrlist" resultType="TeamMemberRole" parameterType="String">
+		select id , login_name , telephone , dance_type , sex , dance_age ,
+		role , role_note
+		from user as u
+		join user_role as ur on u.id = ur.user_id
+		join role as r on
+		r.role_id = ur.role_id
+		where along_team_id = #{alongTeamId}
+	</select>
+
+	<!-- 7.修改用户角色通过loginName -->
+	<!-- <update id="updateRole" parameterType="TeamMemberRole"> -->
+	<!-- update user_role -->
+	<!-- set role_id = #{} -->
+	<!-- </update> -->
+
+	<!-- 8.根据id查出该用户的角色信息 -->
+	<select id="selectById" parameterType="String">
+		select role from
+		role as r
+		join user_role as ur on r.role_id = ur.role_id
+		join user as u
+		on ur.user_id = u.id
+		where u.id = #{id}
+	</select>
+
+	<!-- 9.根据用户id修改所属舞团 -->
+	<update id="updateAlongTeam" parameterType="String">
+		update user set
+		along_team_id = #{null}
+		where id = #{id}
+	</update>
+
+	<!-- 10.根据用户loginName查询部分信息，包括角色，舞团等； -->
+	<select id="selectUserMessageByLoginName" parameterType="String"
+		resultType="UserMessage">
+		select u.age,u.dance_age,u.dance_type,u.email,u.sex,
+			   r.role,r.role_note,dt.dance_team_name
+		from user as u
+		join dance_team as dt on u.along_team_id = dt.dance_team_id
+		join user_role as ur on ur.user_id = u.id
+		join role as r on r.role_id = ur.role_id
+		where u.login_name = #{loginName}
+	</select>
+	
+	<!-- 11.根据用户loginName查询用户信息 -->
+	<select id="selectUserByLoginName" parameterType="String" resultType="User">
+		select * from user 
+		where login_name = #{loginName}
+	</select>
+	
+</mapper>
