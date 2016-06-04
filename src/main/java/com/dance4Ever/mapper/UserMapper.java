@@ -34,4 +34,6 @@ public interface UserMapper {
 	UserMessage selectUserMessageByLoginName(@Param(value = "loginName") String loginName);
 	//11.根据用户loginName查询用户信息
 	User selectUserByLoginName(@Param(value = "loginName") String loginName);
+	//12.舞团添加成员
+	void addMembers(@Param(value = "user") User user);
 }

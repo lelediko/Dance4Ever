@@ -79,4 +79,15 @@ public class DanceTeamServiceImpl implements DanceTeamService {
 	public DanceTeam queryById(String danceTeamId) {
 		return danceTeamMapper.queryById(danceTeamId);
 	}
+
+	@Override
+	public boolean updateTeamMessage(DanceTeam danceTeam) {
+		danceTeamMapper.updateDanceTeamMessage(danceTeam);
+		return true;
+	}
+
+	@Override
+	public int getTeamNum(String danceTeamId) {
+		return danceTeamMapper.getTeamNum(danceTeamId);
+	}
 }

@@ -20,6 +20,12 @@
 				<span class="title_span">Video视频推荐</span>
 			</div>
 		</div>
+		<div>
+			<input type="file" name="uploadmusic" id="uploadmusic" value="上传视频" />
+		</div>
+		<div>
+		<br>
+		</div>
 		<div class="floor_goods_wrap">
 			<ul>
 				
@@ -61,5 +67,6 @@
 	</div>
 	
 	<script type="text/javascript" src="${ctx}/resources/js/index.js"></script>
+	<script type="text/javascript" src="${ctx}/resources/js/videoList.js"></script>
 </body>
 </html>

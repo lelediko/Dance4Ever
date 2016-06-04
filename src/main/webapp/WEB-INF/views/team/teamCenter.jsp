@@ -186,7 +186,7 @@
 				<th>${tmr.sex }</th>
 				<th>${tmr.roleNote }</th>
 				<th>
-					<button class="revise btn btn-default">修改</button>
+					<button class="revise btn btn-default b1" id="button1">修改角色</button>
 					<button class="delete btn btn-default">删除</button>
 				</th>
 			</tr>
@@ -292,8 +292,22 @@
 			e.target.parentNode.parentNode.remove();
 		})
 		
-		
-		
+		$(function(){
+			$(".b1").each(function(i,b){
+				$(b).click(function(){
+					var name=$(b).parent().prev().prev().prev().prev().prev().prev().text();
+					$("#username").val(name);
+					var role=$(b).parent().prev().text();
+					$("#urole").find("option").each(function(i,r){
+						//alert($(r).text());
+						if($(r).text().trim()==role){
+							$(r).prop("selected",true);
+						}
+					});
+				});
+			});
+		});
+	
 		
 		
 	</script>

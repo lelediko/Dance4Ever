@@ -204,12 +204,13 @@ input:focus {
 		<font color="white" size="6" >舞团信息</font>
 	</div>
 	<div align="center">
-		<form method="post" class="center_form">
-			<input type="text" name="danceTeamName" placeholder="舞团名" required="required" value="${danceTeam.danceTeamName }" />
-			<input type="text" name="danceTeamCity" placeholder="来自城市" required="required" value="${danceTeam.danceTeamCity }" />
-			<input type="text" name="danceTeamCreateTime" placeholder="成立时间" required="required" value="${danceTeam.danceTeamCreateTime }" />
-			<input type="text" name="danceTeamPersonNum" placeholder="人数" required="required" value="${danceTeam.danceTeamPersonNum }" />
-			<input type="text" name="danceTeamIntro" placeholder="简介" required="required" value="${danceTeam.danceTeamIntro }" />
+		<form method="post" class="center_form" action="updateTeamMessage">
+			<input type="text" name="danceTeamName" placeholder="舞团名" value="${danceTeam.danceTeamName }" />
+			<input type="text" name="danceTeamCity" placeholder="来自城市" value="${danceTeam.danceTeamCity }" />
+			<input type="text" name="danceTeamCreateTime" placeholder="成立时间" value="${danceTeam.danceTeamCreateTime }" />
+			<input type="text" name="danceTeamPersonNum" placeholder="人数" value="${danceTeam.danceTeamPersonNum }" />
+			<input type="text" name="danceTeamIntro" placeholder="简介" value="${danceTeam.danceTeamIntro }" />
+			<button type="submit" class="btn btn-primary btn-block btn-large">保存</button>
 		</form>
 	</div>
 	</div>

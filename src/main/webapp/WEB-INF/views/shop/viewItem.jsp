@@ -11,7 +11,7 @@
 	</tr>
 </table>
 
-<p>
+
 <table align="center" bgcolor="#008800" cellspacing="2" cellpadding="3"
 		border="0" width="60%">
 		<tr bgcolor="#FFFF88">
@@ -59,4 +59,5 @@
 			</td>
 		</tr>
 	</table>
+
 	<%@include file="../commons/bottom.jsp"%>

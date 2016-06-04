@@ -179,6 +179,21 @@ input {
 	
 }
 
+#form1 div{
+	width: 300px;
+	height:30px;
+	line-height: 30px;
+	margin-top:10px;
+}
+#form1 div input{
+	width:12px;
+	height:12px;
+}
+#form1 div font{
+	margin-right:20px;
+	margin-left:5px;
+}
+
 input:focus {
 	box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px
 		rgba(255, 255, 255, 0.2);
@@ -202,12 +217,12 @@ input:focus {
 	<div align="center">
 		<form action="updateUserMessage" name = "form1" id = "form1" method="post">
 			<input type="text" name="loginName" placeholder="昵称" value="昵称:${um.loginName }"/>
-			<input type="text" name="age" placeholder="年龄" value="${um.age }" /><br>
-			
-			<input type="radio" name="sex" value="1" <c:if test="${um.sex== 1}">checked="checked"</c:if> /><font color="white">男</font> 
-			<input type="radio" name="sex" value="2" <c:if test="${um.sex== 2}">checked="checked"</c:if>/><font color="white">女</font>
-			<input type="radio" name="sex" value="0" <c:if test="${um.sex== 0}">checked="checked"</c:if>/> <font color="white">保密</font>
-			
+			<input type="text" name="age" placeholder="年龄" value="${um.age }" />
+			<div>
+				<input type="radio" name="sex" value="1" <c:if test="${um.sex== 1}">checked="checked"</c:if> /><font color="white">男</font> 
+				<input type="radio" name="sex" value="2" <c:if test="${um.sex== 2}">checked="checked"</c:if>/><font color="white">女</font>
+				<input type="radio" name="sex" value="0" <c:if test="${um.sex== 0}">checked="checked"</c:if>/> <font color="white">保密</font>
+			</div>
 			<input type="text" name="email" placeholder="邮箱" value="${um.email }" /><br>
 			<input type="text" name="danceType" placeholder="舞种" value="${um.danceType }" /><br>
 			<input type="text" name="danceAge" placeholder="舞龄" value="${um.danceAge }" /><br>

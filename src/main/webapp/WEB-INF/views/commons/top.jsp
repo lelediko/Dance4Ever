@@ -20,7 +20,7 @@
 						</A>
 					</TD>
 					<TD align=right >
-						<A href=""><IMG border=0 name=img_cart
+						<A href="showCar"><IMG border=0 name=img_cart
 								src="${ctx}/resources/images/images/cart.gif">
 						</A>
 						<IMG border=0 src="${ctx}/resources/images/images/separator.gif">

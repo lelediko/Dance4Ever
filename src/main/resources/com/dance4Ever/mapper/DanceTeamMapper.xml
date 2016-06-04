@@ -25,6 +25,21 @@
 		where dance_team_id = #{id};
 	</select>
 	
+	<!-- 6.根据舞团登录名，更改舞团信息 -->
+	<update id="updateDanceTeamMessage">
+		update dance_team set dance_team_city = #{danceTeam.danceTeamCity},
+		dance_team_intro = #{danceTeam.danceTeamIntro},
+		dance_team_create_time = #{danceTeam.danceTeamCreateTime} , 
+		dance_team_last_update_time = #{danceTeam.danceTeamLastUpdateTime}
+		where dance_team_name = #{danceTeam.danceTeamName}
+	</update>
+	
+	<!-- 7.求舞团人数 -->
+	<select id="getTeamNum" parameterType="String" resultType="int">
+		select count(*) from user
+		where along_team_id=#{danceTeamId}
+	</select>
+	
 	<resultMap type="DanceTeam" id="dance_team_list">
 		<id property="danceTeamId" column="dance_team_id"/>
 		<result property="danceTeamName" column="dance_team_name"/>

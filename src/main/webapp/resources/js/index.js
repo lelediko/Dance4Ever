@@ -16,7 +16,7 @@ $("#head_car").hover(function(){
     },400);
 })
 //登录注册hover事件
-function headRight(obj1){
+/*function headRight(obj1){
 	console.log(22)
 	obj1.click(function() {
 		var divHeight = obj1.css("height");
@@ -31,7 +31,35 @@ function headRight(obj1){
 	});
 }
 headRight($('.login'),$('.login'));
-headRight($('.register'),$('.register'));
+headRight($('.register'),$('.register'));*/
+
+//登录注册按钮下拉框效果
+var divHeight;
+$('#login').click(function(){
+	divHeight=$(this).height();
+	if(divHeight == 40) {
+		$(this).animate({height:120+'px'},200);
+	}
+	if(divHeight == 120) {
+		$(this).animate({height:40+'px'},200);
+	}
+})
+$('#register').click(function(){
+	divHeight=$(this).height();
+	if(divHeight == 40) {
+		$(this).animate({height:120+'px'},200);
+	}
+	if(divHeight == 120) {
+		$(this).animate({height:40+'px'},200);
+	}
+})
+$(document).click(function(){
+	if($('#login').height() == 120){
+		$('#login').animate({height:40+'px'},200);
+	}else if($('#register').height() == 120){
+		$('#register').animate({height:40+'px'},200);
+	}
+});
 
 
 
@@ -45,7 +73,12 @@ $('.close').click(function(){
     $('.flex').animate({"opacity":"0"},200).css('display','none');
     $('.flex').css('top',310 + 'px');
 	$('.flex').css('left',0 + 'px');
+	
 })
+//$('.close').click(function(){
+//	console.log("clicked");
+//	$('#myvideo').remove();
+//})
 
 var lastX;
 var lastY;

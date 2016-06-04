@@ -12,4 +12,10 @@
 		delete from user_role
 		where user_id = #{userId}
 	</delete>
+	
+	<!-- 3.添加用户角色 -->
+	<insert id="addUserRole" parameterType="UserRole">
+		insert into user_role (user_role_id,user_id,role_id) 
+		values (#{userRole.userRoleId} , #{userRole.userId} , #{userRole.roleId})
+	</insert>
 </mapper>

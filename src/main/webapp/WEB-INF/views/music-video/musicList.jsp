@@ -16,8 +16,15 @@
 <body scroll=auto>
 	<div id="head_hot_goods_wrap">
 		<div id="head_hot_goods_title">
-			<span class="title_span">Music音乐推荐</span>
+			<span class="title_span"><font color="white">Music音乐推荐</font></span>
 		</div>
+		<div>
+			<input type="file" name="uploadmusic" id="uploadmusic" value="上传音乐" />
+		</div>
+		<div>
+		<br>
+		</div>
+		
 		<div id="head_hot_goods_content">
 			<ul>
 				<li><a><img src="${ctx}/resources/images/jazz160.jpg"

@@ -23,7 +23,9 @@ public class UserServiceImpl implements UserService {
 	public boolean addUser(User user) {
 		user.setCreateTime(new Date());
 		user.setLastLoginTime(new Date());
-		user.setId(PrimaryKeyUtil.getPrimaryKey());
+		if(user.getId().equals(null)){
+			user.setId(PrimaryKeyUtil.getPrimaryKey());
+		}
 		userMapper.register(user);
 		return true;
 	}

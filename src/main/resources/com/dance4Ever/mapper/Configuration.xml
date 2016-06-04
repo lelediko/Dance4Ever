@@ -17,6 +17,7 @@
 	   <typeAlias alias="TeamMemberRole" type="com.dance4Ever.domain.TeamMemberRole"/>
 	   <typeAlias alias="UserMessage" type="com.dance4Ever.domain.UserMessage"/>
 	   <typeAlias alias="Category" type="com.dance4Ever.domain.Category"/>
+	   <typeAlias alias="UserProduct" type="com.dance4Ever.domain.UserProduct"/>
 	</typeAliases>
 	
 </configuration>

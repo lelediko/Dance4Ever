@@ -221,7 +221,8 @@
 			</div>
 			<div class="flex_box">
 				<video width="440" height="340" controls="controls" id="myvideo">
-				<source src="${ctx}/resources/videos/56.mp4" type="video/mp4" id="so"></source> </video>
+				<source src="${ctx}/resources/videos/56.mp4" type="video/mp4" id="so"></source>
+				</video>
 			</div>
 		</div>
 	</div>

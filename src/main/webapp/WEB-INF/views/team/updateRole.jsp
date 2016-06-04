@@ -12,21 +12,27 @@
 			<div class="info_img1">
 				<img class="offbutton1" src="${ctx}/resources/images/offButton.jpg" alt="">
 			</div>
-			<form action="">
-				<h2>信息</h2>
+			<form action="updateRole" name="updateRole" id = "updateRole" method="post">
+				<h2>修改角色</h2>
 				<div class="input-group input-group-lg">
-					<span class="input-group-addon" id="sizing-addon1">name</span>
-					<input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+					<span class="input-group-addon" id="sizing-addon1">登录名</span>
+					<input type="text" name="username" id="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
 				</div>
 				<div class="input-group input-group-lg">
-					<span class="input-group-addon" id="sizing-addon1">sex</span>
-					<input type="text" class="form-control" placeholder="Usersex" aria-describedby="sizing-addon1">
+					<span class="input-group-addon" id="sizing-addon1">角色</span>
+					<select type = "select" name="urole" id ="urole" class="form-control" aria-describedby="sizing-addon1">
+						<option value = "2">
+							团长
+						</option>
+						<option value = "3">
+							队长
+						</option>
+						<option value = "4">
+							队员
+						</option>
+					</select>
 				</div>
-				<div class="input-group input-group-lg">
-					<span class="input-group-addon" id="sizing-addon1">call</span>
-					<input type="text" class="form-control" placeholder="Usercall" aria-describedby="sizing-addon1">
-				</div>
-				<input class="submit1 btn btn-default" type="submit">
+				<input class="submit1 btn btn-default" type="submit" value="确认修改">
 			</form>
 		</div>	
 	</div>

@@ -13,4 +13,6 @@ public interface DanceTeamService {
 	public boolean updateRole(TeamMemberRole tmr);
 	public boolean deleteUserRole(TeamMemberRole tmr);
 	public DanceTeam queryById(String danceTeamId);
+	public boolean updateTeamMessage(DanceTeam danceTeam);
+	public int getTeamNum(String danceTeamId);
 }

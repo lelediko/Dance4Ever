@@ -1,5 +1,6 @@
 package com.dance4Ever.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.dance4Ever.domain.Category;
 import com.dance4Ever.domain.Product;
+import com.dance4Ever.domain.UserProduct;
 import com.dance4Ever.mapper.CategoryMapper;
 import com.dance4Ever.mapper.ProductMapper;
+import com.dance4Ever.mapper.UserProductMapper;
+import com.dance4Ever.util.PrimaryKeyUtil;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -20,6 +24,8 @@ public class ShopServiceImpl implements ShopService {
 	private ProductMapper productMapper;
 	@Autowired
 	private CategoryMapper categoryMapper;
+	@Autowired
+	private UserProductMapper userProductMapper;
 	
 	@Override
 	public List<Product> proList() {
@@ -44,6 +50,40 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<Product> pplist(String categoryId) {
 		return productMapper.pplist(categoryId);
+	}
+
+	@Override
+	public void addtoUP(String userId, String productId) {
+		UserProduct userProduct = new UserProduct();
+		userProduct.setUserProductId(PrimaryKeyUtil.getPrimaryKey());
+		userProduct.setUserId(userId);
+		userProduct.setProductId(productId);
+		userProduct.setLastUpdateTime(new Date());
+		userProduct.setSellNum(1);
+		userProduct.setStatu(0);
+		userProductMapper.addtoUP(userProduct);
+	}
+
+	@Override
+	public List<UserProduct> uplist(String userId) {
+		
+		return userProductMapper.selectAllByUserId(userId);
+	}
+
+	@Override
+	public UserProduct go(String userId, String productId) {
+		return userProductMapper.go(userId, productId);
+	}
+
+	@Override
+	public void updateNum(UserProduct userProduct) {
+		int sellNum = userProduct.getSellNum()+1;
+		userProductMapper.updateNum(userProduct.getUserProductId(), sellNum);
+	}
+
+	@Override
+	public void deleteFromBuyCar(UserProduct userProduct) {
+		userProductMapper.deleteFromBuyCar(userProduct.getUserProductId());
 	}
 	
 	

@@ -1,8 +1,10 @@
 package com.dance4Ever.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dance4Ever.domain.Category;
 import com.dance4Ever.domain.Product;
+import com.dance4Ever.domain.User;
+import com.dance4Ever.domain.UserProduct;
 import com.dance4Ever.service.ShopService;
 
 @Controller
@@ -33,13 +37,18 @@ public class ShopController {
     }
 	
 	@RequestMapping(value="/showShopMain",method=RequestMethod.GET)  
-    public ModelAndView showShopMain(Model model){
+    public ModelAndView showShopMain(HttpSession session){
 		logger.debug("******显示商品种类******");
 		ModelAndView mav = new ModelAndView();
-		List<Product> proList = shopService.proList();
-        mav.addObject("proList", proList);
-        mav.setViewName("shop/main");
-        return mav;  
+		if(session.getAttribute("loginuser")==null){
+			mav.setViewName("wrong");
+			return mav;
+		}else{
+			List<Product> proList = shopService.proList();
+	        mav.addObject("proList", proList);
+	        mav.setViewName("shop/main");
+	        return mav;  
+		}
     }
 	
 	@RequestMapping(value="/showCategory/{productType}",method=RequestMethod.GET )  
@@ -74,12 +83,85 @@ public class ShopController {
     }
 	
 	@RequestMapping(value="/showCategory/showItem/showProduct/{productId}/addToShopCar",method=RequestMethod.GET)  
-    public ModelAndView addToShopCar(@PathVariable String productId){
-        logger.debug("******首页******");
+    public ModelAndView addToShopCar(@PathVariable String productId,HttpSession session){
+        logger.debug("******加入购物车******");
         ModelAndView mav = new ModelAndView();
-        Product prod = shopService.getMessageById(productId);
-        mav.addObject("prod", prod);
+        User user1 = (User) session.getAttribute("loginuser");
+        
+        UserProduct userProduct0 = shopService.go(user1.getId(), productId);
+        
+        if(userProduct0 != null){
+        	shopService.updateNum(userProduct0);
+        }else{
+        	shopService.addtoUP(user1.getId(), productId);
+        }
+          
+//        List<UserProduct> uplist = shopService.uplist(user1.getId());
+//        List<Product> plist = new ArrayList();
+//        for(int i = 0 ; i < uplist.size() ; i++){
+//        	UserProduct up = uplist.get(i);
+//        	String pid = up.getProductId();
+//        	Product p = shopService.getMessageById(pid);
+//        	p.setProductSellNum(up.getSellNum());
+//        	plist.add(p);
+//        }
+        
+        mav.addObject("plist", productList(user1.getId()));
         mav.setViewName("shop/addItemToCart");
-        return mav;  
+        return mav; 
     }
+	
+	@RequestMapping(value="/showCar",method=RequestMethod.GET)  
+    public ModelAndView showCar(HttpSession session){
+        logger.debug("******加入购物车******");
+        ModelAndView mav = new ModelAndView();
+        User user1 = (User) session.getAttribute("loginuser");
+        
+        mav.addObject("plist", productList(user1.getId()));
+        mav.setViewName("shop/addItemToCart");
+        return mav; 
+	}
+	
+	@RequestMapping(value="/remove/{productId}",method=RequestMethod.GET)
+	public ModelAndView removeFromBuyCar(@PathVariable String productId,HttpSession session){
+		logger.debug("******加入购物车******");
+        ModelAndView mav = new ModelAndView();
+		
+        User user1 = (User) session.getAttribute("loginuser");
+        UserProduct userProduct0 = shopService.go(user1.getId(), productId);
+        shopService.deleteFromBuyCar(userProduct0);
+        
+        mav.addObject("plist", productList(user1.getId()));
+        mav.setViewName("shop/addItemToCart");
+        return mav; 
+	}
+	
+	@RequestMapping(value="/showCategory/showItem/showProduct/addToShopCar/remove/{productId}",method=RequestMethod.GET)
+	public ModelAndView deleteFromBuyCar(@PathVariable String productId,HttpSession session){
+		logger.debug("******加入购物车******");
+        ModelAndView mav = new ModelAndView();
+		
+        User user1 = (User) session.getAttribute("loginuser");
+        UserProduct userProduct0 = shopService.go(user1.getId(), productId);
+        shopService.deleteFromBuyCar(userProduct0);
+        
+        mav.addObject("plist", productList(user1.getId()));
+        mav.setViewName("shop/addItemToCart");
+        return mav; 
+	}
+	
+	
+	
+	private List<Product> productList(String userId){
+		 List<UserProduct> uplist = shopService.uplist(userId);
+	        List<Product> plist = new ArrayList();
+	        for(int i = 0 ; i < uplist.size() ; i++){
+	        	UserProduct up = uplist.get(i);
+	        	String pid = up.getProductId();
+	        	Product p = shopService.getMessageById(pid);
+	        	p.setProductSellNum(up.getSellNum());
+	        	plist.add(p);
+	        }
+		return plist;
+	}
 }

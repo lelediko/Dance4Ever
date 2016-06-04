@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.UserProductMapper">
+	<insert id="addtoUP" parameterType="UserProduct">
+		insert into user_product(user_product_id , user_id , product_id , 
+								last_update_time , sell_num , statu)
+		values (#{userProduct.userProductId} , #{userProduct.userId} , 
+				#{userProduct.productId} , #{userProduct.lastUpdateTime} , #{userProduct.sellNum},
+				#{userProduct.statu})
+	</insert>
+	
+	<select id="selectAllByUserId" parameterType="String" resultType="UserProduct">
+		select * from user_product 
+		where user_id = #{userId}
+	</select>
+	<select id="go" resultType="UserProduct">
+		select * from user_product 
+		where user_id = #{userId} and product_id = #{productId}
+	</select>
+	<update id="updateNum">
+		update user_product set sell_num = #{sellNum} 
+		where user_product_id = #{userProductId}
+	</update>
+	<delete id="deleteFromBuyCar">
+		delete from user_product 
+		where user_product_id = #{userProductId}
+	</delete>
+</mapper>

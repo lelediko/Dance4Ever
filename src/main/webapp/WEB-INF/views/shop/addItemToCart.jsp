@@ -18,23 +18,15 @@
 			<h2 align="center">
 				订单详情
 			</h2>
-			<form name="form1" method="post"
-				action="">
-				
+			<form name="form1" method="post" action="">
 				<table align="center" bgcolor="#008800" border="0" cellspacing="2"
 					cellpadding="5" >
 					<tr bgcolor="#cccccc">
 						<td>
+							商品编号
+						</td>
+						<td>
 							商品名称
-						</td>
-						<td>
-							商品种类
-						</td>
-						<td>
-							cccccc
-						</td>
-						<td>
-							<b>ddddd</b>
 						</td>
 						<td width="100">
 							单价
@@ -46,64 +38,46 @@
 							总价
 						</td>
 						<td>
-							qqqqq
-							&nbsp;
+							移出购物车
+							
 						</td>
 					</tr>
-
-			
-			
 					
-					
+				<c:forEach items="${plist }" var="product">
 					<tr bgcolor="#FFFF88">
 						<td>
 							<b> 
-							
-							
-							<a href="">啊啊啊啊啊啊啊啊啊</a>
-							
+								<a href="">${product.productId }</a>
 							</b>
 						</td>
 						<td>
-							哔哔哔哔哔哔哔哔哔哔
-						
+							${product.productName }
 						</td>
 						<td>
-							擦擦擦擦擦擦擦
-							
-						</td>
-						<td align="center">
-							顶顶顶顶顶顶顶
-							
-						</td>
-						<td>
-							福福福福福福福福福
+							${product.productUnitPrice }
 														
 						</td>
-						<td align="right">
-							嘎嘎嘎嘎嘎嘎嘎嘎嘎
-							<br/>
+						<td align="center">
+							<input type="text" name="number" id="number" class="nu" value="${product.productSellNum }" />							
 						</td>
-						<td align="right">
-							钱钱钱钱钱钱钱钱钱
-							
+						<td align="center" class="co">
+							${product.productUnitPrice * product.productSellNum }
 						</td>
 						<td>
-							<a href=""><img border="0"
+							<a href="remove/${product.productId }"><img border="0"
 									src="${ctx }/resources/images/images/button_remove.gif" />
 							</a>
 						</td>
 					</tr>
-					
+				</c:forEach>
 					<tr bgcolor="#FFFF88">
 						<td colspan="1" align="left">
 							<b>
 								收货地址：
 							</b>							
-							
 						</td>
 						<td colspan="7">
-							长春
+							<input type="text" name="address" id="address" />
 							&nbsp;
 						</td>
 					</tr>
@@ -112,51 +86,65 @@
 							<b>
 								总付款金额
 							</b>							
-							
 						</td>
-						<td>
-							元
+						<td id="to">
 							&nbsp;
 						</td>
-						
 					</tr>
 					<tr bgcolor="#FFFF88">
 						<td colspan="7" align="right">
 							<b>
 								我已确认所有信息&nbsp;
 							</b>							
-							
 						</td>
 						<td>
 							<input type="submit" value="提交订单" />
 						</td>
-						
 					</tr>
 				</table>
 				<center>
-
 				</center>
 			</form>
-
-
 			<br />
 			<center>
 				<a href=""><img border="0"
 						src="${ctx}/resources/images/images/button_checkout.gif"/>
 				</a>
 			</center>
-
-
 		</td>
-
-
 		<td valign="top" width="20%" align="right">
 				<%@include file="favItem.jsp" %>	
 		</td>
-
 	</tr>
 </table>
 
 <br>
 <%@include file="../commons/banner.jsp" %>		
 <%@include file="../commons/bottom.jsp"%>
+<script type="text/javascript" src="${ctx}/resources/js/jquery-2.1.4.min.js">
+</script>
+<script type="text/javascript">
+function test(){
+	var count=0;
+	$(".co").each(function(i,n){
+		//alert($(n).text());
+		var t=$(n).text();
+		count=count+parseInt(t);
+		//alert(count);
+	});
+	//alert(count);
+	return count;
+}
+$(function(){
+	$("#to").text(test()+"元");
+	$(".nu").each(function(i,n){
+		$(n).keyup(function(){
+			//alert($(n).parent().prev().text());
+			//alert($(n).val());
+			$(n).parent().next().text($(n).parent().prev().text()*$(n).val());
+			$("#to").text(test()+"元");
+		});
+	});
+});
+	
+</script>

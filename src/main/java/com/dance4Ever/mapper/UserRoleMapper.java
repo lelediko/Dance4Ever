@@ -11,4 +11,6 @@ public interface UserRoleMapper {
 	void updateUr(@Param("userRole") UserRole userRole);
 	//2.删除用户角色连接表内信息
 	void deleteUserRole(@Param("userId") String userId);
+	//3.添加用户角色
+	void addUserRole(@Param("userRole") UserRole userRole);
 }
