@@ -13,6 +13,7 @@
 	   <typeAlias alias="Role" type="com.dance4Ever.domain.Role"/>
 	   <typeAlias alias="UserRole" type="com.dance4Ever.domain.UserRole"/>
 	   <typeAlias alias="Videos" type="com.dance4Ever.domain.Videos"/>
+	   <typeAlias alias="Musics" type="com.dance4Ever.domain.Musics"/>
 	   <typeAlias alias="Product" type="com.dance4Ever.domain.Product"/>
 	   <typeAlias alias="TeamMemberRole" type="com.dance4Ever.domain.TeamMemberRole"/>
 	   <typeAlias alias="UserMessage" type="com.dance4Ever.domain.UserMessage"/>

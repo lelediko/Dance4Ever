@@ -78,7 +78,7 @@
 <%-- 							<%@ include file="user/userMessage.jsp"%> --%>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="music">
-							<%@ include file="music-video/musicList.jsp"%>
+<%-- 							<%@ include file="music-video/musicList.jsp"%> --%>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="video">
 							<%@ include file="music-video/videoList.jsp"%>
@@ -104,7 +104,7 @@
 			var id=$(this).find("a").attr("href").replace("#","");
 			var url="";
 			if(id=="basic") url="changeModal";
-			else if (id=="music") url="";
+			else if (id=="music") url="showMusics";
 			else if(id=="video") url="";
 			else if(id=="myTeam") url="myTeam";
 			

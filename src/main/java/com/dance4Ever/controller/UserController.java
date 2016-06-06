@@ -1,6 +1,8 @@
 package com.dance4Ever.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dance4Ever.domain.DanceTeam;
+import com.dance4Ever.domain.Musics;
 import com.dance4Ever.domain.Role;
 import com.dance4Ever.domain.User;
 import com.dance4Ever.domain.UserMessage;
 import com.dance4Ever.service.DanceTeamService;
+import com.dance4Ever.service.MusicService;
 import com.dance4Ever.service.UserService;
 
 @Controller
@@ -34,6 +38,8 @@ public class UserController {
 	private UserService userService;
 	@Resource
 	private DanceTeamService danceTeamService;
+	@Resource
+	private MusicService musicService;
 	
 	@RequestMapping(value="/userlogin",method=RequestMethod.GET)  
     public String userloginForm(Model model){
@@ -152,4 +158,14 @@ public class UserController {
 		return "redirect:user";
 	}
 	
+	@RequestMapping(value="/showMusics" , method=RequestMethod.POST )
+	public ModelAndView showMusics(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		User user1 = (User) session.getAttribute("loginuser");
+		
+		List<Musics> mlist = musicService.mlist(user1.getId());
+		mav.addObject("mlist",mlist);
+		mav.setViewName("music-video/musicList");
+		return mav;
+	}
 }

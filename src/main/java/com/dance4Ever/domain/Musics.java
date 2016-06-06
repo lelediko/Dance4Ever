@@ -18,6 +18,8 @@ public class Musics implements Serializable {
 	private Date lastUpdateTime;
 	private String createPersonId;
 	private String musicPath;
+	private byte[] musicFile;
+	
 	public String getMusicId() {
 		return musicId;
 	}
@@ -59,6 +61,12 @@ public class Musics implements Serializable {
 	}
 	public void setMusicPath(String musicPath) {
 		this.musicPath = musicPath;
+	}
+	public byte[] getMusicFile() {
+		return musicFile;
+	}
+	public void setMusicFile(byte[] musicFile) {
+		this.musicFile = musicFile;
 	}
 	
 	

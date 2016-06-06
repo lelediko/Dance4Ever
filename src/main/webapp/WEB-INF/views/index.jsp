@@ -206,7 +206,8 @@
 							<img src="${ctx}/resources/images/${video.videoType}160x160.jpg"
 							height="220" width="230">
 					</a> <a class="floor_goods_tit vn">${video.videoName}</a> <a
-						class="floor_goods_price">diko</a></li>
+						class="floor_goods_price">diko</a>
+						<a ><img src="${ctx}/resources/images/down.png" height="20" width="20"></a></li>
 				</c:forEach>
 			</ul>
 

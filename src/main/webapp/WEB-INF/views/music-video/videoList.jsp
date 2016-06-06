@@ -12,6 +12,12 @@
 	src="${ctx}/resources/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript"
 	src="${ctx}/resources/js/jquery.animate-colors-min.js"></script>
+<style type="text/css">
+.btn-block {
+    width: 100px;
+    display: block;
+}
+</style>
 </head>
 <body scroll=auto>
 <div id="main_show_box">
@@ -20,8 +26,10 @@
 				<span class="title_span">Video视频推荐</span>
 			</div>
 		</div>
+		<form action="" method="post"></form>
 		<div>
-			<input type="file" name="uploadmusic" id="uploadmusic" value="上传视频" />
+			<input type="file" name="uploadmusic" id="uploadmusic" />
+			<button type="submit" class="btn btn-primary btn-block btn-large">确定上传</button>
 		</div>
 		<div>
 		<br>

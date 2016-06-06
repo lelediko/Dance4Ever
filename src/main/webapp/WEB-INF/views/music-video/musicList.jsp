@@ -12,37 +12,61 @@
 	src="${ctx}/resources/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript"
 	src="${ctx}/resources/js/jquery.animate-colors-min.js"></script>
+<style type="text/css">
+.btn-block {
+    width: 100px;
+    margin-top:40px;
+    display: block;
+}
+
+#upLoadMusic div{
+	width: 300px;
+	height:30px;
+	line-height: 30px;
+	margin-top:10px;
+}
+#upLoadMusic div input{
+	width:20px;
+	height:12px;
+}
+#upLoadMusic div font{
+	margin-right:20px;
+	margin-left:5px;
+}
+
+</style>
 </head>
 <body scroll=auto>
 	<div id="head_hot_goods_wrap">
 		<div id="head_hot_goods_title">
 			<span class="title_span"><font color="white">Music音乐推荐</font></span>
 		</div>
-		<div>
-			<input type="file" name="uploadmusic" id="uploadmusic" value="上传音乐" />
-		</div>
+		<form action="music/upLoadMusic" method="post" enctype="multipart/form-data" name="upLoadMusic" id="upLoadMusic">
+			<input type="file" name="uploadmusic" id="uploadmusic" />
+			<br>
+			<font color="white">请选择上传音乐类型:</font>
+			<br>
+			<div>
+				<input type="radio" name="musicType" value="breaking" checked="checked" /><font color="white">breaking</font> 
+				<input type="radio" name="musicType" value="popping" /><font color="white">popping</font>
+				<input type="radio" name="musicType" value="jazz" /> <font color="white">jazz</font>
+				<input type="radio" name="musicType" value="hiphop" /> <font color="white">hiphop</font>
+				<input type="radio" name="musicType" value="locking" /> <font color="white">locking</font>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block btn-large">确定上传</button>
+		
+		</form>
 		<div>
 		<br>
 		</div>
 		
 		<div id="head_hot_goods_content">
 			<ul>
-				<li><a><img src="${ctx}/resources/images/jazz160.jpg"
-						height="160" width="160"></a> <a>jazz</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/popping160.jpg"
-						height="160" width="160"></a> <a>popping</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/hiphop160.jpg"
-						height="160" width="160"></a> <a>hiphop</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/locking160.jpg"
-						height="160" width="160"></a> <a>locking</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/jazz160.jpg"
-						height="160" width="160"></a> <a>jazz</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/popping160.jpg"
-						height="160" width="160"></a> <a>popping</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/hiphop160.jpg"
-						height="160" width="160"></a> <a>hiphop</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/locking160.jpg"
-						height="160" width="160"></a> <a>locking</a> <a>音乐名称</a></li>
+				<c:forEach items="${mlist}" var="music">
+					<li><a><img src="${ctx}/resources/images/${music.musicType}160.jpg"
+						height="160" width="160"></a> <a>${music.musicName}</a> <a>${music.musicType}</a>
+						<a href="music/download/${music.musicId }">下载</a></li>
+				</c:forEach>
 			</ul>
 		</div>
 	</div>
