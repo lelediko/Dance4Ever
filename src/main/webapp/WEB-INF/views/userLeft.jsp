@@ -29,7 +29,7 @@
 				<div id="head_landing">
 <!-- 					<a class="head_nav_a" href="" style="color: green">登陆</a> <span>|</span> -->
 <!-- 					<a class="head_nav_a" href="" style="color: green">注册</a> <span>|</span> -->
-<!-- 					<a class="head_nav_a" href="" style="color: green">用户中心</a> -->
+					<a class="head_nav_a" href="logout" style="color: green">退出登录</a>
 				</div>
 			</div>
 		</div>
@@ -78,13 +78,14 @@
 <%-- 							<%@ include file="user/userMessage.jsp"%> --%>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="music">
-<%-- 							<%@ include file="music-video/musicList.jsp"%> --%>
+							<%@ include file="music-video/musicList.jsp"%>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="video">
-							<%@ include file="music-video/videoList.jsp"%>
+<%-- 							<%@ include file="music-video/videoList.jsp"%> --%>
 						</div>
+						
 						<div role="tabpanel" class="tab-pane" id="love">
-							<%@ include file="music-video/loveList.jsp"%>
+<%-- 							<%@ include file="music-video/loveList.jsp"%> --%>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="myTeam">
 <%-- 							<%@ include file="user/myTeam.jsp"%> --%>
@@ -105,8 +106,9 @@
 			var url="";
 			if(id=="basic") url="changeModal";
 			else if (id=="music") url="showMusics";
-			else if(id=="video") url="";
+			else if(id=="video") url="showVideos";
 			else if(id=="myTeam") url="myTeam";
+			else if(id=="love") url="showLoves";
 			
 			$.post(url,"",function(data){
 				$("#"+id+"").html("");

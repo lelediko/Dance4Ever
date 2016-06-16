@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.DanceTeamNewsMapper">
+	<insert id="publishNews" parameterType="DanceTeamNews">
+		insert into dance_team_news (dance_team_news_id , dance_team_id , title , news ,last_update_time) 
+		values (#{dtn.danceTeamNewsId} , #{dtn.danceTeamId} , #{dtn.title} , #{dtn.news} ,
+		#{dtn.lastUpdateTime})
+	</insert>
+	<select id="dtnList" parameterType="String" resultType="DanceTeamNews">
+		select * from dance_team_news 
+		where dance_team_id = #{danceTeamId}
+	</select>
+	<delete id="deleteNews" parameterType="String">
+		delete from dance_team_news
+		where dance_team_news_id = #{danceTeamNewsId}
+	</delete>
+	<update id="updateNews" parameterType="DanceTeamNews">
+		update dance_team_news set 
+		title = #{dtn.title} , news = #{dtn.news} , last_update_time = #{dtn.lastUpdateTime} 
+		where dance_team_news_id = #{dtn.danceTeamNewsId}
+	</update>
+</mapper>

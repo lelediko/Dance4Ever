@@ -7,6 +7,15 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>导航</title>
+<script type="text/javascript"
+		src="${ctx}/resources/js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript"
+		src="${ctx}/resources/bootstrapjs/npm.js"></script>
+	<script type="text/javascript"
+		src="${ctx}/resources/bootstrapjs/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="${ctx}/resources/js/jquery.animate-colors-min.js"></script>
+	<script type="text/javascript" src="${ctx}/resources/js/index.js"></script>
 <link rel="stylesheet"
 	href="${ctx}/resources/bootstrapcss/bootstrap-theme.css" />
 <link rel="stylesheet"
@@ -23,14 +32,14 @@
 	<div class="head_box">
 		<div id="head_wrap">
 			<div id="head_nav">
-				<a class="head_nav_a" href="${ctx}/user/index">Dance4Ever</a>
+				<a class="head_nav_a" href="${ctx}/index">Dance4Ever</a>
 			</div>
 			<div id="head_right">
-<!-- 				<div id="head_landing"> -->
-<!-- 					<a class="head_nav_a" href="" style="color: green">登陆</a> <span>|</span> -->
-<!-- 					<a class="head_nav_a" href="" style="color: green">注册</a> <span>|</span> -->
-<!-- 					<a class="head_nav_a" href="" style="color: green">用户中心</a> -->
-<!-- 				</div> -->
+								<div id="head_landing">
+				<!-- 					<a class="head_nav_a" href="" style="color: green">登陆</a> <span>|</span> -->
+				<!-- 					<a class="head_nav_a" href="" style="color: green">注册</a> <span>|</span> -->
+									<a class="head_nav_a" href="logout" style="color: green">退出登录 </a>
+								</div>
 			</div>
 		</div>
 	</div>
@@ -62,6 +71,12 @@
 							aria-controls="teambasic" role="tab" data-toggle="tab"><span>基本信息</span></a></li>
 						<li id="testID" role="presentation"><a href="#teamer"
 							aria-controls="teamer" role="tab" data-toggle="tab"><span>队员管理</span></a></li>
+						<li id="testID" role="presentation"><a href="#teamnews"
+							aria-controls="teamnews" role="tab" data-toggle="tab"><span>舞团公告</span></a></li>
+						<li id="testID" role="presentation"><a href="#teamvideos"
+							aria-controls="teamvideos" role="tab" data-toggle="tab"><span>视频管理</span></a></li>
+						<li id="testID" role="presentation"><a href="#teammusics"
+							aria-controls="teammusics" role="tab" data-toggle="tab"><span>音乐管理</span></a></li>
 
 					</ul>
 				</div>
@@ -69,11 +84,20 @@
 					<!-- Tab panes -->
 					<div class="tab-content" id="myTabContent">
 						<div role="tabpanel" class="tab-pane active" id="teambasic">
-<%-- 							<%@ include file="team/teamMessage.jsp"%> --%>
+							<%@ include file="team/teamMessage.jsp"%>
 						</div>
 						<div role="tabpanel" class="tab-pane" id="teamer">
 							<%-- 							<%@ include file="team/teamerList.jsp"%> --%>
-<%-- 							<%@ include file="team/teamCenter.jsp"%> --%>
+							<%-- 							<%@ include file="team/teamCenter.jsp"%> --%>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="teamnews">
+							<%@ include file="team/teamNews.jsp"%>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="teamvideos">
+<%-- 							<%@ include file="team/teamNews.jsp"%> --%>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="teammusics">
+<%-- 							<%@ include file="team/teamNews.jsp"%> --%>
 						</div>
 					</div>
 				</div>
@@ -82,63 +106,48 @@
 
 	</div>
 
-	<script type="text/javascript"
-		src="${ctx}/resources/bootstrapjs/npm.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/bootstrapjs/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/bootstrapjs/bootstrap.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/js/jquery.animate-colors-min.js"></script>
-	<script type="text/javascript" src="${ctx}/resources/js/index.js"></script>
 
 	<script type="text/javascript">
-	/*$(document).ready(function(){
-		$("#testID").click(function(){
-			$.post("teamCenter/getMember","",function(data){
-				
-				$("#teamer").html("");	
-	
-	
-				$("#teamer").append(data);
+		/*$(document).ready(function(){
+			$("#testID").click(function(){
+				$.post("teamCenter/getMember","",function(data){
+					
+					$("#teamer").html("");	
+		
+		
+					$("#teamer").append(data);
+				});
+			});
+		});*/
+
+		$(document).ready(function() {
+
+			$("#myTab li").on("click", function() {
+				var id = $(this).find("a").attr("href").replace("#", "");
+				var url = "";
+				if (id == "teambasic")
+					url = "showDanceTeamMessage";
+				else if (id == "teamer")
+					url = "getMember";
+				else if (id == "teamnews")
+					url = "showNews";
+				else if (id == "teamvideos")
+					url = "showVideos";
+				else if (id == "teammusics")
+					url = "showMusics";
+
+				$.post(url, "", function(data) {
+					$("#" + id + "").html("");
+					$("#" + id + "").append(data);
+				});
+			});
+			$("#myTab li").each(function() {
+				if ($(this).attr("class") == "active") {
+					$(this).click();
+				}
+
 			});
 		});
-	});*/
-	
-	$(document).ready(function(){
-		
-		$("#myTab li").on("click",function(){
-			var id=$(this).find("a").attr("href").replace("#","");
-			var url="";
-			if(id=="teambasic") url="showDanceTeamMessage";
-			else if(id=="teamer") url="getMember";
-			
-			$.post(url,"",function(data){
-				$("#"+id+"").html("");
-				$("#"+id+"").append(data);
-			});	
-		});
-		$("#myTab li").each(function(){
-			if($(this).attr("class")=="active"){
-				$(this).click();
-			}
-			
-		});
-	});
-		
 	</script>
-	<script type="text/javascript"
-		src="${ctx}/resources/bootstrapjs/npm.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/bootstrapjs/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/bootstrapjs/bootstrap.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript"
-		src="${ctx}/resources/js/jquery.animate-colors-min.js"></script>
-	<script type="text/javascript" src="${ctx}/resources/js/index.js"></script>
 </body>
 </html>

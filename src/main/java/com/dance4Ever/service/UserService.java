@@ -12,4 +12,5 @@ public interface UserService {
 	public String selectByUserId(String userId);
 	public boolean updateByLoginName(User user);
 	public User selectUserByLoginName(String loginName);
+	public void outTeam(String userId);
 }

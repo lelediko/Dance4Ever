@@ -18,6 +18,15 @@ private static final long serialVersionUID = 1L;
 	private Date lastUpdateTime;
 	private String createPersonId;
 	private String videoPath;
+	private byte[] videoFile;
+	
+	
+	public byte[] getVideoFile() {
+		return videoFile;
+	}
+	public void setVideoFile(byte[] videoFile) {
+		this.videoFile = videoFile;
+	}
 	public String getVideoId() {
 		return videoId;
 	}

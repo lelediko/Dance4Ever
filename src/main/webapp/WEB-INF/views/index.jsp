@@ -165,27 +165,25 @@
 		</div>
 		<div id="head_hot_goods_content">
 			<ul>
-				<li><a><img src="${ctx}/resources/images/breaking160.jpg"
-						height="160" width="160"></a> <a>breaking</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/popping160.jpg"
-						height="160" width="160"></a> <a>popping</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/jazz160.jpg"
-						height="160" width="160"></a> <a>jazz</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/locking160.jpg"
-						height="160" width="160"></a> <a>locking</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/hiphop160.jpg"
-						height="160" width="160"></a> <a>hiphop</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/breaking160.jpg"
-						height="160" width="160"></a> <a>breaking</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/jazz160.jpg"
-						height="160" width="160"></a> <a>jazz</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/popping160.jpg"
-						height="160" width="160"></a> <a>popping</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/hiphop160.jpg"
-						height="160" width="160"></a> <a>hiphop</a> <a>音乐名称</a></li>
-				<li><a><img src="${ctx}/resources/images/locking160.jpg"
-						height="160" width="160"></a> <a>locking</a> <a>音乐名称</a></li>
+			<c:forEach items="${mmlist }" var="music">
+				<li><a class="ig"><img src="${ctx}/resources/images/${music.musicType }160.jpg"
+						height="160" width="160" ></a> <a>${music.musicType }</a> 
+						<a>${music.musicName }</a>
+						<a href="download/${music.musicId }"><img src="${ctx}/resources/images/down.png" height="20" width="20"></a>
+						<a href="addloveMusic/${music.musicId }"><img src="${ctx}/resources/images/love1.png" height="20" width="20"></a></li></li>
+			
+			</c:forEach>
 			</ul>
+		</div>
+		
+		<div class="flex1" id="vi1">
+			<div class="flex_box">
+				<audio src="" controls="controls" type="audio/mpeg" class="aud">
+<%-- 					<c:forEach items="${mmlist}" var="musics"> --%>
+<%-- 						<source src="${ctx}/resources/videos/a.mp3" type="audio/mpeg"></source> --%>
+<%-- 					</c:forEach> --%>
+				</audio>
+			</div>
 		</div>
 	</div>
 	<div id="main_show_box">
@@ -207,7 +205,8 @@
 							height="220" width="230">
 					</a> <a class="floor_goods_tit vn">${video.videoName}</a> <a
 						class="floor_goods_price">diko</a>
-						<a ><img src="${ctx}/resources/images/down.png" height="20" width="20"></a></li>
+						<a href = "downloadvideo/${video.videoId }"><img src="${ctx}/resources/images/down.png" height="20" width="20"></a>
+						<a href="addloveVideo/${video.videoId }"><img src="${ctx}/resources/images/love1.png" height="20" width="20"></a></li>
 				</c:forEach>
 			</ul>
 
@@ -220,9 +219,12 @@
 					class="offbutton">
 				</a>
 			</div>
-			<div class="flex_box">
-				<video width="440" height="340" controls="controls" id="myvideo">
-				<source src="${ctx}/resources/videos/56.mp4" type="video/mp4" id="so"></source>
+			<div class="flex_box vd">
+				<video src="" width="440" height="340" controls="controls" type="video/mp4" class="so">
+<%-- 					<c:forEach items="${vlist}" var="videos"> --%>
+<%-- 						<source src="${ctx}/resources/videos/阿牙-Allstyle裁判solo-世界街舞锦标赛北京赛区_标清.mp4" type="video/mp4"></source> --%>
+<!-- 						<source src="" type="video/mp4" class="so"></source> -->
+<%-- 					</c:forEach> --%>
 				</video>
 			</div>
 		</div>
@@ -233,25 +235,30 @@
 	<script type="text/javascript" src="${ctx}/resources/js/index.js"></script>
 	<script type="text/javascript">
 		$(function() {
-		//	$("#vi").hide();
 			$(".im").each(function(i,m) {
 				//alert($(m).next().text());
 				$(m).click(function() {
-					//alert($("#so").attr("src"))
-					$("#so").attr("src","${ctx}/resources/videos/"+$(m).next().text());
-					alert("${ctx}/resources/videos/"+$(m).next().text()==$("#so").attr("src"));
-				//	$("#vi").show();
-					
-				});
-			});
-			$(".vn").each(function(i,vn) {
-				$(vn).click(function() {
-					alert("${ctx}/resources/videos/"+$(vn).text()==$("#so").attr("src"));
-					//$("#so").attr("src","${ctx}/resources/videos/"+$(vn).text());
+					//alert($(".so").attr("src"))
+					$(".so").attr("src","${ctx}/resources/videos/"+$(m).next().text());
+					//alert($(".so").attr("src"));
+					//alert($(".vd").html());
 					$("#vi").load();
-					$("#vi").show();
+					//alert("${ctx}/resources/videos/"+$(m).next().text()==$(".so").attr("src"));
 				});
 			});
+			
+			$(".ig").each(function(i,p) {
+				//alert($(p).next().next().text());
+				$(p).click(function() {
+					//alert($(".so").attr("src"))
+					$(".aud").attr("src","${ctx}/resources/videos/"+$(p).next().next().text());
+					//alert($(".so").attr("src"));
+					//alert($(".vd").html());
+					$("#vi1").load();
+					//alert("${ctx}/resources/videos/"+$(m).next().text()==$(".so").attr("src"));
+				});
+			});
+			
 			$("#ce").hide();
 			$("#we").hide();
 			if ("${sessionScope.loginuser.loginName }" != "") {

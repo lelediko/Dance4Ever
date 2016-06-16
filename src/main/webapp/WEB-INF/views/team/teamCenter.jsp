@@ -187,7 +187,7 @@
 				<th>${tmr.roleNote }</th>
 				<th>
 					<button class="revise btn btn-default b1" id="button1">修改角色</button>
-					<button class="delete btn btn-default">删除</button>
+					<button class="delete btn btn-default" >删除</button>
 				</th>
 			</tr>
 			</c:forEach>

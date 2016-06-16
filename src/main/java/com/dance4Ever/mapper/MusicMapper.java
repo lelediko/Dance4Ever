@@ -12,4 +12,5 @@ public interface MusicMapper {
 	public void createMusic(@Param(value = "music") Musics music);
 	public List<Musics> getMusics(@Param(value = "userId") String userId);
 	public Musics download(@Param(value = "musicId") String musicId);
+	public List<Musics> mmlist();
 }

@@ -17,6 +17,21 @@
     width: 100px;
     display: block;
 }
+
+#upLoadVideo div{
+	width: 300px;
+	height:30px;
+	line-height: 30px;
+	margin-top:10px;
+}
+#upLoadVideo div input{
+	width:20px;
+	height:12px;
+}
+#upLoadVideo div font{
+	margin-right:20px;
+	margin-left:5px;
+}
 </style>
 </head>
 <body scroll=auto>
@@ -26,49 +41,32 @@
 				<span class="title_span">Video视频推荐</span>
 			</div>
 		</div>
-		<form action="" method="post"></form>
-		<div>
-			<input type="file" name="uploadmusic" id="uploadmusic" />
+		<form action="music/upLoadVideo" method="post" enctype="multipart/form-data" name="upLoadVideo" id="upLoadVideo">
+			<input type="file" name="uploadvideo" id="uploadvideo" value="上传"/>
+			<br>
+			<font color="white">请选择上传音乐类型:</font>
+			<br>
+			<div>
+				<input type="radio" name="videoType" value="breaking" checked="checked" /><font color="white">breaking</font> 
+				<input type="radio" name="videoType" value="popping" /><font color="white">popping</font>
+				<input type="radio" name="videoType" value="jazz" /> <font color="white">jazz</font>
+				<input type="radio" name="videoType" value="hiphop" /> <font color="white">hiphop</font>
+				<input type="radio" name="videoType" value="locking" /> <font color="white">locking</font>
+			</div>
 			<button type="submit" class="btn btn-primary btn-block btn-large">确定上传</button>
-		</div>
+		</form>
 		<div>
 		<br>
 		</div>
 		<div class="floor_goods_wrap">
 			<ul>
-				
+				<c:forEach items="${vlist }" var="video">
 				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T1odEjB5bT1RXrhCrK.jpg"></a> <a class="floor_goods_tit">大米智能家庭套装</a>
-					<a class="floor_goods_txt">3分钟快速安装，30多种智能玩法</a> <a
-					class="floor_goods_price">199元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T1JKxvBXhv1RXrhCrK.jpg"></a> <a class="floor_goods_tit">大米随身WIFI
-						8GB U盘版</a> <a class="floor_goods_txt">随身上网神器，内置8GB U盘</a> <a
-					class="floor_goods_price">49.9元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T18yZQBCET1RXrhCrK.jpg"></a> <a class="floor_goods_tit">小蚁智能摄像机</a>
-					<a class="floor_goods_txt">能看能听能说，手机远程观看</a> <a
-					class="floor_goods_price">149元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T1YoZQByYT1RXrhCrK.jpg"></a> <a class="floor_goods_tit">大米体重称</a>
-					<a class="floor_goods_txt">高精度压力传感器 ｜ 手机管理全家健康</a> <a
-					class="floor_goods_price">99元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T16nVjBCKT1RXrhCrK.jpg"></a> <a class="floor_goods_tit">小蚁运动机</a>
-					<a class="floor_goods_txt">边玩边录边拍，手机随时分享</a> <a
-					class="floor_goods_price">399元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T18zWQB4WT1RXrhCrK.jpg"></a> <a class="floor_goods_tit">大米路由器
-						mini</a> <a class="floor_goods_txt">主流双频AC智能路由器，性价比之王</a> <a
-					class="floor_goods_price">129元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T1oixjB5bT1RXrhCrK.jpg"></a> <a class="floor_goods_tit">大米智能插座</a>
-					<a class="floor_goods_txt">手机远程遥控开关，带USB接口</a> <a
-					class="floor_goods_price">59元</a></li>
-				<li class="floor_goods_wrap_li"><a class="floor_goods_img"><img
-						src="${ctx}/resources/images/T1KzbQBvbT1RXrhCrK.jpg"></a> <a class="floor_goods_tit">大米水质TDS检测笔</a>
-					<a class="floor_goods_txt">准确检测家中水质纯度</a> <a
-					class="floor_goods_price">39元</a></li>
+						src="${ctx}/resources/images/${video.videoType}160x160.jpg" height="220" width="230"></a> 
+						<a class="floor_goods_tit">${video.videoName}</a>
+					<a class="floor_goods_txt">${video.videoType}</a>
+					<a href="music/downloadvideo/${video.videoId }">下载</a></li>
+					</c:forEach>
 				<div style="clear: both;"></div>
 			</ul>
 		</div>

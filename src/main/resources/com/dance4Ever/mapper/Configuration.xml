@@ -19,6 +19,9 @@
 	   <typeAlias alias="UserMessage" type="com.dance4Ever.domain.UserMessage"/>
 	   <typeAlias alias="Category" type="com.dance4Ever.domain.Category"/>
 	   <typeAlias alias="UserProduct" type="com.dance4Ever.domain.UserProduct"/>
+	   <typeAlias alias="UserVideosLove" type="com.dance4Ever.domain.UserVideosLove"/>
+	   <typeAlias alias="UserMusicsLove" type="com.dance4Ever.domain.UserMusicsLove"/>
+	   <typeAlias alias="DanceTeamNews" type="com.dance4Ever.domain.DanceTeamNews"/>
 	</typeAliases>
 	
 </configuration>

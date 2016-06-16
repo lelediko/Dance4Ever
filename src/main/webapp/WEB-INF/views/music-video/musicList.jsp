@@ -20,7 +20,7 @@
 }
 
 #upLoadMusic div{
-	width: 300px;
+	width: 290px;
 	height:30px;
 	line-height: 30px;
 	margin-top:10px;

@@ -73,10 +73,10 @@
 		where u.id = #{id}
 	</select>
 
-	<!-- 9.根据用户id修改所属舞团 -->
+	<!-- 9.根据用户id修改所属舞团 ,退出舞团-->
 	<update id="updateAlongTeam" parameterType="String">
 		update user set
-		along_team_id = #{null}
+		along_team_id = ""
 		where id = #{id}
 	</update>
 

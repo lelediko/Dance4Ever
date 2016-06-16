@@ -11,6 +11,7 @@ import com.dance4Ever.domain.Role;
 import com.dance4Ever.domain.User;
 import com.dance4Ever.domain.UserMessage;
 import com.dance4Ever.mapper.UserMapper;
+import com.dance4Ever.mapper.UserRoleMapper;
 import com.dance4Ever.util.PrimaryKeyUtil;
 
 @Service
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private UserRoleMapper userRoleMapper;
 	
 	public boolean addUser(User user) {
 		user.setCreateTime(new Date());
@@ -65,6 +68,12 @@ public class UserServiceImpl implements UserService {
 	public User selectUserByLoginName(String loginName) {
 		
 		return userMapper.selectUserByLoginName(loginName);
+	}
+
+	@Override
+	public void outTeam(String userId) {
+		userMapper.updateAlongTeam(userId);
+		userRoleMapper.deleteUserRole(userId);
 	}
 	
 }

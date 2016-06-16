@@ -23,4 +23,6 @@ public interface DanceTeamMapper {
 	void updateDanceTeamMessage(@Param("danceTeam") DanceTeam danceTeam);
 	//7.求舞团人数
 	int getTeamNum(@Param("danceTeamId") String danceTeamId);
+	//8.查询舞团基本信息
+	DanceTeam getMessage(@Param("danceTeamId") String danceTeamId);
 }

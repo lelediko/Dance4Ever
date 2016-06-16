@@ -39,6 +39,11 @@
 		select count(*) from user
 		where along_team_id=#{danceTeamId}
 	</select>
+	<!-- 8 -->
+	<select id="getMessage" parameterType="String" resultType="DanceTeam">
+		select * from dance_team 
+		where dance_team_id = #{danceTeamId}
+	</select>
 	
 	<resultMap type="DanceTeam" id="dance_team_list">
 		<id property="danceTeamId" column="dance_team_id"/>

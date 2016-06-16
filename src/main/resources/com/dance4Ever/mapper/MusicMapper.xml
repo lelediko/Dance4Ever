@@ -18,4 +18,9 @@
 		select * from musics 
 		where music_id = #{musicId}
 	</select>
+	<select id="mmlist" resultType="Musics">
+		select * from musics 
+		where create_person_id = "111111111111111111111111111111111111"
+		order by create_time desc limit 8 
+	</select>
 </mapper>

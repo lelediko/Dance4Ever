@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dance4Ever.mapper.UserVideosLoveMapper">
+	<insert id="addtoLove" parameterType="UserVideosLove">
+		insert into user_videos_love(user_videos_love_id , video_id , user_id) 
+		values(#{uvl.userVideoLoveId} , #{uvl.videoId} , #{uvl.userId})
+	</insert>
+	<select id="getVideosId" parameterType="String" resultType="String">
+		select video_id from user_videos_love 
+		where user_id = #{userId}
+	</select>
+	<delete id="deleteLoveVideo" parameterType="Map">
+		delete from user_videos_love 
+		where video_Id = #{videoId} and user_id = #{userId}
+	</delete>
+</mapper>

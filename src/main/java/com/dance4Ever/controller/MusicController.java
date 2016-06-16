@@ -26,7 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dance4Ever.domain.Musics;
 import com.dance4Ever.domain.User;
+import com.dance4Ever.domain.Videos;
 import com.dance4Ever.service.MusicService;
+import com.dance4Ever.service.VideoService;
 import com.dance4Ever.util.FileUtil;
 import com.dance4Ever.util.PrimaryKeyUtil;
 
@@ -37,6 +39,8 @@ public class MusicController {
 	
 	@Resource
 	private MusicService musicService;
+	@Resource
+	private VideoService videoService;
 	
 	@RequestMapping(value="/upLoadMusic" , method=RequestMethod.POST )
 	public String upLoadMusic(@RequestParam(value = "uploadmusic", required = true) MultipartFile file ,
@@ -79,13 +83,13 @@ public class MusicController {
 	
 	private List<Musics> getMusicList(String userId){
 		List<Musics> mlist = new ArrayList<Musics>();
-		musicService.mlist(userId);
+		mlist = musicService.mlist(userId);
 		return mlist;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/download/{musicId}",method=RequestMethod.GET)
-	public String download(@PathVariable String musicId,
+	public String downloadMusic(@PathVariable String musicId,
 			  HttpSession session){
 		Musics music1 = musicService.download(musicId);
 		byte[] musicData = music1.getMusicFile();
@@ -107,5 +111,93 @@ public class MusicController {
 			e.printStackTrace();
 		}
 		return "success";
+	}
+	
+	@RequestMapping(value="/upLoadVideo" , method=RequestMethod.POST )
+	public String upLoadVideo(@RequestParam(value = "uploadvideo", required = true) MultipartFile file ,
+							  @RequestParam(value = "videoType", required = true) String videoType,
+							  HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		User user1 = (User) session.getAttribute("loginuser");
+		try {
+			InputStream is = file.getInputStream();
+			byte[] videoData = file.getBytes();
+			
+			String fileName = file.getOriginalFilename();
+			
+			Videos video = new Videos();
+			video.setCreatePersonId(user1.getId());
+			video.setCreateTime(new Date());
+			video.setLastUpdateTime(new Date());
+			video.setVideoId(PrimaryKeyUtil.getPrimaryKey());
+			video.setVideoName(fileName);
+			video.setVideoPath(FileUtil.getPath(user1.getId()));
+			video.setVideoType(videoType);
+			video.setVideoFile(videoData);
+			
+			videoService.createVideo(video);
+			
+			
+		} catch (IOException e) {
+			logger.error("上传文件出错"+e.getMessage(),e);
+		}
+		return "redirect:/user/user";
+	}
+	
+	@RequestMapping(value="/showVideos" , method=RequestMethod.GET )
+	public ModelAndView showVideos(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		User user1 = (User) session.getAttribute("loginuser");
+			
+		mav.addObject("vlist", getVideoList(user1.getId()));
+		mav.setViewName("music-video/videoList");
+		return mav;
+	}
+	
+	private List<Videos> getVideoList(String userId){
+		List<Videos> vlist = new ArrayList<Videos>();
+		vlist = videoService.vlist(userId);
+		return vlist;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/downloadvideo/{videoId}",method=RequestMethod.GET)
+	public String downloadVideo(@PathVariable String videoId,
+			  HttpSession session){
+		Videos video1 = videoService.downloadVideo(videoId);
+		byte[] videoData = video1.getVideoFile();
+		try {
+			String path = "D:\\dance4Ever\\videos";
+			File file = new File(path);
+			if(!file.exists()&& !file .isDirectory()){
+				logger.debug("文件夹不存在，创建文件夹");
+				file.mkdirs();
+			}
+			FileOutputStream fos = new FileOutputStream(path+"/"+video1.getVideoName());
+			try {
+				fos.write(videoData);
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
+	//取消收藏音乐
+	@RequestMapping(value="/deleteLoveMusic/{musicId}", method=RequestMethod.GET)
+	public String deleteLoveMusic(@PathVariable String musicId , HttpSession session){
+		User user1 = (User) session.getAttribute("loginuser");
+		musicService.deleteLoveMusic(musicId, user1.getId());
+		return "redirect:/user/user";
+	}
+	
+	//取消收藏视频
+	@RequestMapping(value="/deleteLoveVideo/{videoId}", method=RequestMethod.GET)
+	public String deleteLoveVideo(@PathVariable String videoId , HttpSession session){
+		User user1 = (User) session.getAttribute("loginuser");
+		videoService.deleteLoveVideo(videoId, user1.getId());
+		return "redirect:/user/user";
 	}
 }

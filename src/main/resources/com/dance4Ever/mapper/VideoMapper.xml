@@ -13,8 +13,28 @@
 	</select>
 	<!-- 3.查询所有的视频  top 8 -->
 	<select id="vlist" resultMap="video_list">
-		select * from videos
+		select * from videos 
+		where create_person_id = "111111111111111111111111111111111111"
 		order by create_time desc limit 8 
+	</select>
+	
+	<insert id="createVideo" parameterType="Videos">
+		insert into videos (video_id , video_name , video_type , create_time , 
+							last_update_time , create_person_id ,
+							video_path , video_file)
+		values (#{video.videoId} , #{video.videoName} , 
+			    #{video.videoType} , #{video.createTime} , 
+			    #{video.lastUpdateTime} , #{video.createPersonId} , 
+			    #{video.videoPath} , #{video.videoFile})
+	</insert>
+	
+	<select id="vvlist" parameterType="String" resultType="Videos">
+		select * from videos 
+		where create_person_id = #{userId}
+	</select>
+	<select id="downloadVideo" parameterType="String" resultType="Videos">
+		select * from videos 
+		where video_id = #{videoId}
 	</select>
 	
 	<resultMap type="Videos" id="video_list">

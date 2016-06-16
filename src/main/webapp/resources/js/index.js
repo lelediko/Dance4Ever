@@ -61,13 +61,18 @@ $(document).click(function(){
 	}
 });
 
-
+$('.flex1').css('height',15+'px');
+$('.head_hot_goods_content_li').click(function(){
+	
+    $('.flex1').css('display','block').animate({"opacity":"1"},200);
+})
 
 $('.flex').css('height',340+'px');
 $('.floor_goods_wrap_li').click(function(){
 	
     $('.flex').css('display','block').animate({"opacity":"1"},200);
 })
+
 $('.close').click(function(){
 //	$('#myvideo').pause();
     $('.flex').animate({"opacity":"0"},200).css('display','none');
@@ -107,6 +112,32 @@ oFlex.onmousedown = function (e) {
 	}
 }
 
+var lastX1;
+var lastY1;
+var oFlex1 = document.getElementsByClassName('flex1')[0];
+oFlex1.onmousedown = function (e) {
+	var event1 = event1 || e;
+	var disX1 = event1.clientX1 - oFlex1.offsetLeft;
+	var disY1 = event1.clientY1 - oFlex1.offsetTop;
+
+	document.onmousemove = function (e) {
+		var event1 = event1 || e;
+		var l1 = event1.clientX - disX1;
+        var t1 = event1.clientY - disY1;
+		iSpeedX1 = l1 - lastX1;
+		iSpeedY1 = t1 - lastY1;
+
+		lastX1 = l1;
+		lastY1 = t1;
+
+		oFlex1.style.left = l1 + 'px';
+		oFlex1.style.top = t1 + 'px';
+	}
+	document.onmouseup = function () {
+		document.onmousemove = null;
+		document.onmouseup = null;
+	}
+}
 
 
 

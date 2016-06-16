@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="fm" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,6 +45,7 @@
 	cursor: pointer;
 	*margin-left: .3em;
 }
+
 body {
 	width: 100%;
 	height: 100%;
@@ -152,18 +154,18 @@ body {
 html {
 	width: 100%;
 	height: 100%;
-/* 	overflow: hidden; */
+	/* 	overflow: hidden; */
 }
 
 input {
 	width: 300px;
-	height:30px;
-	margin-top:10px;
+	height: 30px;
+	margin-top: 10px;
 	background: rgba(0, 0, 0, 0.3);
 	outline: none;
 	padding: 20px;
 	font-size: 30px;
- 	color: #ccc;
+	color: #ccc;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 5px;
@@ -174,15 +176,14 @@ input {
 	-o-transition: box-shadow .5s ease;
 	-ms-transition: box-shadow .5s ease;
 	transition: box-shadow .5s ease;
-	
 }
 
 input:focus {
-  	box-shadow: inset 0 -5px 45px #d3d3d3, 0 1px 1px 
-  		#fff; 
-/*  	box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px  */
-/*  		rgba(255, 255, 255, 0.2);  */
- } 
+	box-shadow: inset 0 -5px 45px #d3d3d3, 0 1px 1px #fff;
+	/*  	box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px  */
+	/*  		rgba(255, 255, 255, 0.2);  */
+}
+
 .users {
 	position: absolute;
 	top: 10%;
@@ -191,28 +192,34 @@ input:focus {
 	width: 300px;
 	height: 300px;
 }
-.center_form input{ 
- 	margin:7px;  
- 	padding:5px; 
-}  
 
+.center_form input {
+	margin: 7px;
+	padding: 5px;
+}
 </style>
 </head>
 <body scroll=auto>
- <div class="users">
- 	<div align="center">
-		<font color="white" size="6" >舞团信息</font>
-	</div>
-	<div align="center">
-		<form method="post" class="center_form" action="updateTeamMessage">
-			<input type="text" name="danceTeamName" placeholder="舞团名" value="${danceTeam.danceTeamName }" />
-			<input type="text" name="danceTeamCity" placeholder="来自城市" value="${danceTeam.danceTeamCity }" />
-			<input type="text" name="danceTeamCreateTime" placeholder="成立时间" value="${danceTeam.danceTeamCreateTime }" />
-			<input type="text" name="danceTeamPersonNum" placeholder="人数" value="${danceTeam.danceTeamPersonNum }" />
-			<input type="text" name="danceTeamIntro" placeholder="简介" value="${danceTeam.danceTeamIntro }" />
-			<button type="submit" class="btn btn-primary btn-block btn-large">保存</button>
-		</form>
-	</div>
+	<div class="users">
+		<div align="center">
+			<font color="white" size="6">舞团信息</font>
+		</div>
+		<div align="center">
+			<form method="post" class="center_form" action="updateTeamMessage">
+				<input type="text" name="danceTeamName" placeholder="舞团名"
+					value="${danceTeam.danceTeamName }" /> <input type="text"
+					name="danceTeamCity" placeholder="来自城市"
+					value="${danceTeam.danceTeamCity }" />
+				<fm:formatDate value="${danceTeam.danceTeamCreateTime }"
+					pattern="yyyy-MM-dd HH:mm:ss" var="time" />
+				<input type="text" name="danceTeamCreateTime" placeholder="成立时间"
+					value="${time }" /> <input type="text" name="danceTeamPersonNum"
+					placeholder="人数" value="${danceTeam.danceTeamPersonNum }" /> <input
+					type="text" name="danceTeamIntro" placeholder="简介"
+					value="${danceTeam.danceTeamIntro }" />
+				<button type="submit" class="btn btn-primary btn-block btn-large">保存</button>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

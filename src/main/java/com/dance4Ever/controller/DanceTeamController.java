@@ -2,6 +2,8 @@ package com.dance4Ever.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,14 +22,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dance4Ever.domain.DanceTeam;
+import com.dance4Ever.domain.DanceTeamNews;
+import com.dance4Ever.domain.Musics;
 import com.dance4Ever.domain.Role;
 import com.dance4Ever.domain.TeamMemberRole;
 import com.dance4Ever.domain.User;
 import com.dance4Ever.domain.UserRole;
+import com.dance4Ever.domain.Videos;
 import com.dance4Ever.service.DanceTeamService;
+import com.dance4Ever.service.MusicService;
 import com.dance4Ever.service.RoleService;
 import com.dance4Ever.service.UserRoleService;
 import com.dance4Ever.service.UserService;
+import com.dance4Ever.service.VideoService;
 import com.dance4Ever.util.DateUtil;
 import com.dance4Ever.util.PrimaryKeyUtil;
 
@@ -42,6 +50,10 @@ public class DanceTeamController {
 	private RoleService roleService;
 	@Resource
 	private UserRoleService userRoleService;
+	@Resource
+	private MusicService musicService;
+	@Resource
+	private VideoService videoService;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)  
     public String index(Model model){
@@ -60,6 +72,12 @@ public class DanceTeamController {
         logger.debug("******登陆页面******");
         return "team/teamlogin";  
     }
+	
+	@RequestMapping(value="logout" , method = RequestMethod.GET)
+	public String logout(HttpSession session){
+		session.setAttribute("teamuser", null);
+		return "redirect:/index";
+	}
 	
 	@RequestMapping(value="/teamlogin" , method=RequestMethod.POST)
 	public String login(@ModelAttribute DanceTeam danceTeam , HttpServletRequest request,HttpSession session){
@@ -102,11 +120,12 @@ public class DanceTeamController {
 		ModelAndView mav = new ModelAndView();
 		DanceTeam danceTeam = (DanceTeam) session.getAttribute("teamuser");
 		
+		DanceTeam danceTeam1 = danceTeamService.getMessage(danceTeam.getDanceTeamId());
 		int danceTeamNum = this.getTeamNum(danceTeam.getDanceTeamId());
-		danceTeam.setDanceTeamPersonNum(danceTeamNum);
+		danceTeam1.setDanceTeamPersonNum(danceTeamNum);
 		
 		mav.setViewName("team/teamMessage");
-		mav.addObject("danceTeam", danceTeam);
+		mav.addObject("danceTeam", danceTeam1);
 		return mav;
 	}
 	
@@ -206,5 +225,94 @@ public class DanceTeamController {
 	
 	private int getTeamNum(String teamId){
 		return danceTeamService.getTeamNum(teamId);
+	}
+	
+	@RequestMapping(value="publishNews" , method=RequestMethod.POST)
+	public String publishNews(@RequestParam(value = "title",required=true) String title,
+			@RequestParam(value = "container",required=true) String news,
+			@RequestParam(value = "action",required=true) String action,
+			@RequestParam(value = "newsId",required=false) String newsId,
+			HttpSession session){
+		DanceTeam danceTeam = (DanceTeam) session.getAttribute("teamuser");
+		DanceTeamNews dtn = new DanceTeamNews();
+		if("add".equals(action)){
+			dtn.setDanceTeamNewsId(PrimaryKeyUtil.getPrimaryKey());
+			dtn.setDanceTeamId(danceTeam.getDanceTeamId());
+			dtn.setNews(cutString(news));
+			dtn.setTitle(title);
+			dtn.setLastUpdateTime(new Date());
+			danceTeamService.publishNews(dtn);
+		}else if("update".equals(action)){
+			dtn.setDanceTeamNewsId(newsId);
+			dtn.setLastUpdateTime(new Date());
+			dtn.setNews(cutString1(news));
+			dtn.setTitle(title);
+			danceTeamService.updateNews(dtn);
+		}
+		
+		
+		return "redirect:teamCenter";
+	}
+	
+	@RequestMapping(value="showNews" , method=RequestMethod.POST)
+	public ModelAndView showNews(HttpSession session){
+		DanceTeam danceTeam = (DanceTeam) session.getAttribute("teamuser");
+		ModelAndView mav = new ModelAndView();
+		List<DanceTeamNews> dtnlist = danceTeamService.dtnList(danceTeam.getDanceTeamId());
+		mav.addObject("dtnlist", dtnlist);
+		mav.setViewName("team/teamNews");
+		return mav;
+	}
+	
+	@RequestMapping(value="/showMusics" , method=RequestMethod.POST )
+	public ModelAndView showMusics(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		DanceTeam danceTeam = (DanceTeam) session.getAttribute("teamuser");
+		
+		List<Musics> mlist = musicService.mlist(danceTeam.getDanceTeamId());
+		mav.addObject("mlist",mlist);
+		mav.setViewName("music-video/musicList");
+		return mav;
+	}
+	
+	@RequestMapping(value="/showVideos" , method=RequestMethod.POST )
+	public ModelAndView showVideos(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		DanceTeam danceTeam = (DanceTeam) session.getAttribute("teamuser");
+		
+		List<Videos> vlist = videoService.vlist(danceTeam.getDanceTeamId());
+		mav.addObject("vlist",vlist);
+		mav.setViewName("music-video/videoList");
+		return mav;
+	}
+	
+
+	@RequestMapping(value="/deleteNews/{danceTeamNewsId}" , method = RequestMethod.GET)
+	public String deleteNews(@PathVariable String danceTeamNewsId){
+		danceTeamService.deleteNews(danceTeamNewsId);
+		//return "delete success";
+		return "redirect:/danceTeam/teamCenter";
+	}
+	
+	private String cutString(String testStr){
+		Pattern p = Pattern.compile("<p>(.*)</p>");
+		Matcher m = p.matcher(testStr);
+		String a = "";
+		while(m.find()){
+			a = m.group(1);
+		}
+		return a.substring(0, a.length()-5);
+		
+	}
+	
+	private String cutString1(String testStr){
+		Pattern p = Pattern.compile("<p>(.*)</p>");
+		Matcher m = p.matcher(testStr);
+		String a = "";
+		while(m.find()){
+			a = m.group(1);
+		}
+		return a;
+		
 	}
 }

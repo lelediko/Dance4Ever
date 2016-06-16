@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dance4Ever.domain.DanceTeam;
+import com.dance4Ever.domain.DanceTeamNews;
 import com.dance4Ever.domain.Role;
 import com.dance4Ever.domain.TeamMemberRole;
 import com.dance4Ever.domain.UserRole;
 import com.dance4Ever.mapper.DanceTeamMapper;
+import com.dance4Ever.mapper.DanceTeamNewsMapper;
 import com.dance4Ever.mapper.RoleMapper;
 import com.dance4Ever.mapper.UserMapper;
 import com.dance4Ever.mapper.UserRoleMapper;
@@ -30,6 +32,8 @@ public class DanceTeamServiceImpl implements DanceTeamService {
 	private RoleMapper roleMapper;
 	@Autowired
 	private UserRoleMapper userRoleMapper;
+	@Autowired
+	private DanceTeamNewsMapper danceTeamNewsMapper;
 
 	public List<DanceTeam> dlist() {
 		return danceTeamMapper.dlist();
@@ -89,5 +93,31 @@ public class DanceTeamServiceImpl implements DanceTeamService {
 	@Override
 	public int getTeamNum(String danceTeamId) {
 		return danceTeamMapper.getTeamNum(danceTeamId);
+	}
+
+	@Override
+	public void publishNews(DanceTeamNews dtn) {
+		danceTeamNewsMapper.publishNews(dtn);
+	}
+
+	@Override
+	public List<DanceTeamNews> dtnList(String danceTeamId) {
+		
+		return danceTeamNewsMapper.dtnList(danceTeamId);
+	}
+
+	@Override
+	public void deleteNews(String danceTeamNewsId) {
+		danceTeamNewsMapper.deleteNews(danceTeamNewsId);
+	}
+
+	@Override
+	public void updateNews(DanceTeamNews dtn) {
+		danceTeamNewsMapper.updateNews(dtn);
+	}
+
+	@Override
+	public DanceTeam getMessage(String danceTeamId) {
+		return danceTeamMapper.getMessage(danceTeamId);
 	}
 }

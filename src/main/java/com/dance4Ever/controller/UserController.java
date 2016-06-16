@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dance4Ever.domain.DanceTeam;
+import com.dance4Ever.domain.DanceTeamNews;
 import com.dance4Ever.domain.Musics;
 import com.dance4Ever.domain.Role;
 import com.dance4Ever.domain.User;
 import com.dance4Ever.domain.UserMessage;
+import com.dance4Ever.domain.Videos;
 import com.dance4Ever.service.DanceTeamService;
 import com.dance4Ever.service.MusicService;
 import com.dance4Ever.service.UserService;
+import com.dance4Ever.service.VideoService;
 
 @Controller
 @RequestMapping("/user")
@@ -40,12 +43,20 @@ public class UserController {
 	private DanceTeamService danceTeamService;
 	@Resource
 	private MusicService musicService;
+	@Resource
+	private VideoService videoService;
 	
 	@RequestMapping(value="/userlogin",method=RequestMethod.GET)  
     public String userloginForm(Model model){
         logger.debug("******登陆页面******");
         return "user/userlogin";  
     }
+	
+	@RequestMapping(value="logout" , method = RequestMethod.GET)
+	public String logout(HttpSession session){
+		session.setAttribute("loginuser", null);
+		return "redirect:/index";
+	}
 	
 	@RequestMapping(value="/userlogin" , method=RequestMethod.POST)
 	public String login(@ModelAttribute User user , HttpServletRequest request,HttpSession session){
@@ -118,13 +129,31 @@ public class UserController {
         String danceTeamId = userService.selectByUserId(userId);
         //获得舞团信息
         DanceTeam danceTeam = danceTeamService.queryById(danceTeamId);
+        //获得舞团音乐，视频
+        List<Videos> vlist = videoService.vlist(danceTeamId);
+        List<Musics> mlist = musicService.mlist(danceTeamId);
+        //获取舞团公告
+        List<DanceTeamNews> dntlist = danceTeamService.dtnList(danceTeamId);
         
-        
+        mav.addObject("dntlist", dntlist);
+        mav.addObject("mlist", mlist);
+        mav.addObject("vlist", vlist);
         mav.setViewName("user/myTeam");
         mav.addObject("role1", role);
         mav.addObject("danceTeam", danceTeam);
         return mav;
     }
+	
+	@RequestMapping(value = "/outTeam" ,method = RequestMethod.GET)
+	public String outTeam(HttpSession session){
+		logger.debug("******退出舞团******");
+		User user1 = (User) session.getAttribute("loginuser");
+		userService.outTeam(user1.getId());
+		//去除AlongTeamId的session缓存
+		user1.setAlongTeamId(null);
+		session.setAttribute("loginuser", user1);
+		return "redirect:user";
+	}
 	
 	@RequestMapping(value = "/updateUserMessage" ,method = RequestMethod.POST)
 	public String updateUserMessage(@RequestParam(value = "loginName",required=false) String loginNameValue ,
@@ -166,6 +195,31 @@ public class UserController {
 		List<Musics> mlist = musicService.mlist(user1.getId());
 		mav.addObject("mlist",mlist);
 		mav.setViewName("music-video/musicList");
+		return mav;
+	}
+	
+	@RequestMapping(value="/showVideos" , method=RequestMethod.POST )
+	public ModelAndView showVideos(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		User user1 = (User) session.getAttribute("loginuser");
+		
+		List<Videos> vlist = videoService.vlist(user1.getId());
+		mav.addObject("vlist",vlist);
+		mav.setViewName("music-video/videoList");
+		return mav;
+	}
+	
+	@RequestMapping(value="/showLoves" , method=RequestMethod.POST )
+	public ModelAndView showLoves(HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		User user1 = (User) session.getAttribute("loginuser");
+		
+		List<Videos> vlist = videoService.getVideosId(user1.getId());
+		List<Musics> mlist = musicService.getMusicIds(user1.getId());
+		
+		mav.addObject("mlist", mlist);
+		mav.addObject("vlist", vlist);
+		mav.setViewName("music-video/loveList");
 		return mav;
 	}
 }
