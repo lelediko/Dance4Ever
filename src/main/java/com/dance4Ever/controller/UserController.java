@@ -204,7 +204,9 @@ public class UserController {
 		User user1 = (User) session.getAttribute("loginuser");
 		
 		List<Videos> vlist = videoService.vlist(user1.getId());
-		mav.addObject("vlist",vlist);
+		if(vlist != null){
+			mav.addObject("vlist",vlist);
+		}
 		mav.setViewName("music-video/videoList");
 		return mav;
 	}

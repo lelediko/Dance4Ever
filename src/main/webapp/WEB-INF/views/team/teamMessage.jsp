@@ -207,13 +207,15 @@ input:focus {
 		<div align="center">
 			<form method="post" class="center_form" action="updateTeamMessage">
 				<input type="text" name="danceTeamName" placeholder="舞团名"
-					value="${danceTeam.danceTeamName }" /> <input type="text"
+					value="${danceTeam.danceTeamName }" /> 
+					<input type="text"
 					name="danceTeamCity" placeholder="来自城市"
 					value="${danceTeam.danceTeamCity }" />
 				<fm:formatDate value="${danceTeam.danceTeamCreateTime }"
 					pattern="yyyy-MM-dd HH:mm:ss" var="time" />
 				<input type="text" name="danceTeamCreateTime" placeholder="成立时间"
-					value="${time }" /> <input type="text" name="danceTeamPersonNum"
+					value="${time }" /> 
+					<input type="text" name="danceTeamPersonNum"
 					placeholder="人数" value="${danceTeam.danceTeamPersonNum }" /> <input
 					type="text" name="danceTeamIntro" placeholder="简介"
 					value="${danceTeam.danceTeamIntro }" />

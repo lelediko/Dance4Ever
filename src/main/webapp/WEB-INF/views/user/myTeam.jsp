@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fm" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -210,8 +211,10 @@ input:focus {
 					required="required" value="${danceTeam.danceTeamName }" /><br>
 				<input type="text" name="danceTeamCity" placeholder="来自城市"
 					required="required" value="${danceTeam.danceTeamCity }" /><br>
+				<fm:formatDate value="${danceTeam.danceTeamCreateTime }"
+					pattern="yyyy-MM-dd HH:mm:ss" var="time" />
 				<input type="text" name="danceTeamCreateTime" placeholder="成立时间"
-					required="required" value="${danceTeam.danceTeamCreateTime }" /><br>
+					required="required" value="${time }" /><br>
 				<input type="text" name="danceTeamPersonNum" placeholder="人数"
 					required="required" value="${danceTeam.danceTeamPersonNum }" /><br>
 				<input type="text" name="danceTeamIntro" placeholder="简介"
